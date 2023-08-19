@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}
+    Movies
+{% endblock title %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href='{{ url_for("static", filename="assets/css/Aboreto.css") }}' />
+    <link rel="stylesheet"
+          href='{{ url_for("static", filename="assets/css/Berkshire Swash.css") }}' />
+    <link rel="stylesheet"
+          href='{{ url_for("static", filename="assets/css/Niconne.css") }}' />
+{% endblock head %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 style="font-family: 'Berkshire Swash', serif;">{{ actor.name }}</h1>
+        {% if actor.photo %}
+            <img class="img-fluid mx-auto d-block border border-dark rounded"
+                 src="{{ actor['full size photo'] }}"
+                 style='max-height:800px'>
+        {% else %}
+            <img height="150px"
+                 src="https://cdn-icons-png.flaticon.com/512/634/634012.png?w=1380&t=st=1691773378~exp=1691773978~hmac=dace2b82ef6c66e3a0d7ef90cf5724aced8cab5469d5ec1fb3664146dbb97e40 "
+                 alt="">
+        {% endif %}
+        <hr>
+        <div class="row flex-column mt-md-5">
+            <div class="col">
+                <h1 style="font-family: 'Berkshire Swash', serif;">Movies</h1>
+            </div>
+            <div class="col">
+                <div class="accordion" role="tablist" id="accordion-2">
+                    {% for movie in actor.movies %}
+                        <div class="accordion-item">
+                            <div class="accordion-header" role="tab">
+                                <button class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#accordion-2 .item-{{ loop.index }}"
+                                        aria-expanded="true"
+                                        aria-controls="accordion-2 .item-{{ loop.index }}">{{ movie.title }}</button>
+                            </div>
+                            <div class="accordion-collapse collapse item-{{ loop.index }}"
+                                 role="tabpanel"
+                                 data-bs-parent="#accordion-2">
+                                <div class="accordion-body">
+                                    <div class="row mt-md-5">
+                                        <div class="col-auto">
+                                            <img style="height: 400px;" src="{{ movie.poster }}" alt="">
+                                        </div>
+                                        <div class="col-auto">
+                                            <h6 class="mb-4">
+                                                Role: <strong>{{ movie.cast[actor._id]['role'] if movie.cast[actor._id] else "Unavailable" }}</strong>
+                                            </h6>
+                                            <p class="mb-0">{{ movie.plot[0] }}</p>
+                                            <a href="{{ url_for('movies.get_movie', movie_id=movie._id) }}">Read more</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block custom_js %}
+    <script type="text/javascript">
+      $("#movie-nav").removeClass("active");
+      $("#actor-nav").addClass("active");
+    </script>
+{% endblock custom_js %}

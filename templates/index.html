@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+  Movies
+{% endblock title %}
+{% block content %}
+  <div class="container py-4 py-xl-5">
+    <div class="row gy-4 gy-md-0">
+      <div class="col-md-6">
+        <div class="p-xl-5 m-xl-5">
+          <img class="rounded img-fluid w-100 fit-cover"
+               style="min-height: 300px"
+               src="{{ movie.poster }}" />
+        </div>
+      </div>
+      <div class="col-md-6 d-md-flex align-items-md-center">
+        <div style="max-width: 350px">
+          <h2 class="text-uppercase fw-bold">{{ movie.title }}</h2>
+          <p class="my-3">{{ movie.plot[0] }}</p>
+          <p>IMDB: {{ movie.rating }}</p>
+          <a class="btn btn-lg btn-light me-2 mt-2"
+             role="button"
+             href="{{ url_for("movies.get_movie", movie_id=movie._id) }}">More Info</a>
+          <a class="btn btn-primary btn-lg me-2 mt-2"
+             role="button"
+             href="{{ url_for("movies.get_random_movie") }}">Show me another random movie!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

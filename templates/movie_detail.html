@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}
+    Movies
+{% endblock title %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href='{{ url_for("static", filename="assets/css/Aboreto.css") }}' />
+    <link rel="stylesheet"
+          href='{{ url_for("static", filename="assets/css/Berkshire Swash.css") }}' />
+    <link rel="stylesheet"
+          href='{{ url_for("static", filename="assets/css/Niconne.css") }}' />
+{% endblock head %}
+{% block content %}
+    <div class="container">
+        <h1 class="display-3" style="font-family: 'Berkshire Swash', serif;">
+            <span>{{ movie.title }}</span>
+        </h1>
+        <div class="row">
+            <div class="col-lg-7">
+                <picture>
+                    <img class="img-thumbnail img-fluid w-100" src="{{ movie.poster }}">
+                </picture>
+            </div>
+            <div class="col-lg-5">
+                <div class="d-flex flex-column justify-content-end h-100">
+                    <p style="font-size: 20px;color: var(--bs-orange);">
+                        <strong>IMDB Rating :{{ movie.rating }}</strong>
+                    </p>
+                    <div>
+                        {% for genre in movie.genres %}
+                            <button class="m-1 btn btn-sm btn-outline-info rounded-pill">{{ genre }}</button>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    <div class="hstack gap-3 mb-4">
+                        <h6 class="m-0">Director(s):</h6>
+                        {% for director in directors %}
+                            <a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                               href="{{ url_for('actors.get_actor', actor_id=director._id) }}">{{ director.name }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-4">
+                        <h6 class="m-0 d-inline-block">Producer(s):</h6>
+                        {% for producer in producers %}
+                            <a class="me-2 link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                               href="{{ url_for('actors.get_actor', actor_id=producer._id) }}">{{ producer.name }}</a>
+                        {% endfor %}
+                    </div>
+                    {% if movie['original air date'] %}
+                        <p>
+                            <strong>Released On:</strong> {{ movie['original air date'] }}
+                        </p>
+                    {% endif %}
+                    <hr>
+                    <p class="fs-4">{{ movie.plot[0] }}</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row" style="margin-top: 40px;">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h1 style="font-family: 'Berkshire Swash', serif;">Cast</h1>
+                    </div>
+                </div>
+                <div class="row row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 row-cols-xxl-5">
+                    {% for actor in actors %}
+                        <div class="col">
+                            <div class="card border-0 shadow-none">
+                                <div class="card-body text-center d-flex flex-column align-items-center p-0">
+                                    <img class="img-thumbnail" style="max-width:150px;" src="{{ actor.photo if actor.photo else " https://cdn-icons-png.flaticon.com/512/634/634012.png?w=1380&t=st=1691773378~exp=1691773978~hmac=dace2b82ef6c66e3a0d7ef90cf5724aced8cab5469d5ec1fb3664146dbb97e40" }}">
+                                    <a href="{{ url_for('actors.get_actor',actor_id=actor._id) }}"
+                                       style="text-decoration: none">
+                                        <h5 class="fw-bold text-dark card-title mb-0">
+                                            <strong>{{ actor.name }}</strong>
+                                        </h5>
+                                    </a>
+                                    <p class="text-muted card-text mb-2">{{ actor.role }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block custom_js %}
+    <script type="text/javascript">
+    $("#actor-nav").removeClass("active");
+    $("#movie-nav").addClass("active");
+    console.log("{{ movie }}")
+    </script>
+{% endblock custom_js %}

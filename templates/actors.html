@@ -1,82 +1,82 @@
 {% extends 'base.html' %}
 {% block title %}
-  Actors
+Actors
 {% endblock title %}
 {% block content %}
-  <div class="container py-4 py-xl-5">
-    <div class="row">
-      <div class="col-md-10 offset-md-1">
-        <div class="card m-auto">
-          <div class="card-body">
-            <form class="d-flex align-items-center">
-              <i class="fas fa-search d-none d-sm-block h4 text-body m-0"></i>
-              <input type="hidden" name="page" value="1" />
-              <input class="form-control form-control-lg flex-shrink-1 form-control-borderless" {% if search_text %}value={{ search_text }}{% endif %} type="search" placeholder="Search for actors" name="search_text" />
-              <button class="btn btn-primary btn-lg" type="submit">Search</button>
-            </form>
-          </div>
+<div class="container py-4 py-xl-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <div class="card m-auto">
+        <div class="card-body">
+          <form class="d-flex align-items-center">
+            <i class="fas fa-search d-none d-sm-block h4 text-body m-0"></i>
+            <input type="hidden" name="page" value="1" />
+            <input class="form-control form-control-lg flex-shrink-1 form-control-borderless" {% if search_text
+              %}value={{ search_text }}{% endif %} type="search" placeholder="Search for actors" name="search_text" />
+            <button class="btn btn-primary btn-lg" type="submit">Search</button>
+          </form>
         </div>
       </div>
     </div>
-    <div class="row gy-4 row-cols-2 row-cols-md-4 row-cols-xl-6 mt-1 pt-1">
-      {% for actor in actors %}
-        <div class="col">
-          <a href="{{ url_for('actors.get_actors',actor_id=actor._id) }}">
-            <div class="card" data-bss-hover-animate="bounce">
-              <a href="{{ url_for('actors.get_actor',actor_id=actor._id) }}"
-                 style="text-decoration: none;
+  </div>
+  <div class="row gy-4 row-cols-2 row-cols-md-4 row-cols-xl-6 mt-1 pt-1">
+    {% for actor in actors %}
+    <div class="col">
+      <a href="{{ url_for('actors.get_actors',actor_id=actor._id) }}">
+        <div class="card" data-bss-hover-animate="bounce">
+          <a href="{{ url_for('actors.get_actor',actor_id=actor._id) }}" style="text-decoration: none;
                         color: black">
-                {% if actor.photo %}
-                  <img class="card-img-top w-100 d-block"
-                       style="height: 300px"
-                       src="{{ actor.photo }}" />
-                {% endif %}
-                <div class="card-body p-4">
-                  <h4 class="card-title">{{ actor.name }}</h4>
-                  <div>
-                    <p class="fw-bold mb-0"
-                       style="font-size: 15px;
+            {% if actor.photo %}
+            <img class="card-img-top w-100 d-block" style="height: 300px" src="{{ actor.photo }}" />
+            {% endif %}
+            <div class="card-body p-4">
+              <h4 class="card-title">{{ actor.name }}</h4>
+              <div>
+                <p class="fw-bold mb-0" style="font-size: 15px;
                               font-style: italic;
                               color: var(--bs-gray-600)">
-                      <span style="font-weight: normal !important">{{ actor.movies or "placeholder" }}</span>
-                    </p>
-                  </div>
-                </div>
-              </a>
+                  <span style="font-weight: normal !important">{{ actor.movies or "placeholder" }}</span>
+                </p>
+              </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
-      <div class="row" style="margin-top: 20px">
-        <div class="col" style="position: static; margin-left: auto">
-          <nav class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
-            <ul class="pagination">
-              {% if page>1 %}
-                <li class="page-item">
-                  <a class="page-link {% if page==1 %}disabled{% endif %}"
-                     aria-label="Previous"
-                     {% if search_text %} href="{{ url_for('actors.get_actors', page=page-1, search_text=search_text) }}" {% else %} href="{{ url_for('movies.get_movies', page=page-1) }}" {% endif %}><span aria-hidden="true">Previous</span></a>
-                </li>
-              {% endif %}
-              <li class="page-item">
-                <a class="page-link active" href="#">{{ page }}</a>
-              </li>
-              {% if actors|length == 24 %}
-                <li class="page-item">
-                  <a class="page-link"
-                     aria-label="Next"
-                     {% if search_text %} href="{{ url_for('actors.get_actors', page=page+1, search_text=search_text) }}" {% else %} href="{{ url_for('actors.get_actors', page=page+1) }}" {% endif %}><span aria-hidden="true">Next</span></a>
-                </li>
-              {% endif %}
-            </ul>
-          </nav>
+          </a>
         </div>
-      </div>
     </div>
-  {% endblock content %}
-  {% block custom_js %}
-    <script type="text/javascript">
-      $("#movie-nav").removeClass("active");
-      $("#actor-nav").addClass("active");
-    </script>
-  {% endblock custom_js %}
+    {% endfor %}
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col" style="position: static; margin-left: auto">
+      <nav
+        class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center">
+        <ul class="pagination">
+          {% if page>1 %}
+          <li class="page-item">
+            <a class="page-link {% if page==1 %}disabled{% endif %}" aria-label="Previous" {% if search_text %}
+              href="{{ url_for('actors.get_actors', page=page-1, search_text=search_text) }}" {% else %}
+              href="{{ url_for('movies.get_movies', page=page-1) }}" {% endif %}><span
+                aria-hidden="true">Previous</span></a>
+          </li>
+          {% endif %}
+          <li class="page-item">
+            <a class="page-link active" href="#">{{ page }}</a>
+          </li>
+          {% if actors|length == 24 %}
+          <li class="page-item">
+            <a class="page-link" aria-label="Next" {% if search_text %}
+              href="{{ url_for('actors.get_actors', page=page+1, search_text=search_text) }}" {% else %}
+              href="{{ url_for('actors.get_actors', page=page+1) }}" {% endif %}><span
+                aria-hidden="true">Next</span></a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block custom_js %}
+<script type="text/javascript">
+  $("#movie-nav").removeClass("active");
+  $("#actor-nav").addClass("active");
+</script>
+{% endblock custom_js %}
